@@ -1,0 +1,22 @@
+//query arco 
+
+select state1, state2 
+from neighbor n 
+where n.state1 > n.state2 
+
+// query stato e peso
+
+select s.state, count(*) as peso
+from sighting s, state st
+where s.state = st.id and year(s.datetime)=2000
+group by s.state
+
+//query state e daydiff
+
+select s1.state, s2.state, datediff((s1.datetime), (s2.datetime) )
+from sighting s1,sighting s2
+where year(s1.datetime) =2000 and year(s1.datetime)=year(s2.datetime)
+and s1.id!=s2.id
+and datediff((s1.datetime), (s2.datetime) )<= 180
+and s1.state >  s2.state
+group by s1.state, s2.state
